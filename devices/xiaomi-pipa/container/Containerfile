@@ -26,6 +26,10 @@ RUN mkdir -p /boot/dtb && \
         kernel-headers && \
     rm -r /boot/dtb
 
+# dracut
+RUN kver=$(rpm -q --qf '%{VERSION}-%{RELEASE}' kernel) && \
+    dracut -vf --kver $kver /usr/lib/modules/$kver/initramfs.img
+
 # services
 RUN systemctl enable \
     qbootctl.service \
